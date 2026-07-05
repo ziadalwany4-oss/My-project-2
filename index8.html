@@ -26,7 +26,6 @@ input{
 }
 input:focus{
     background-color:lightblue;
-
 }
 
 button {
@@ -73,7 +72,6 @@ p{
     </div>
     <h2>Products</h2>
     <div id="ProductList"></div>
-    
     </div>
 <script>
      let input1 = document.getElementById("input1");
@@ -90,13 +88,11 @@ p{
 
      if(SavedseProduct !==null){
         Product = JSON.parse(SavedseProduct);
-     }
-     
+     }  
     function saveToLocalStorage(){
         localStorage.setItem("Product", JSON.stringify(Product));
     }
-
-      
+ 
      function displayProduct (){
         ProductList.innerHTML ='';
 
