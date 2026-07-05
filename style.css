@@ -1,0 +1,52 @@
+h1{
+    color:blue;
+    text-align: center;
+    font-weight: bold;
+    font-size:50px;
+}
+h2{
+    margin-left: 10px;
+    color:blue;
+}
+input{
+    border-radius: 5px;
+    border-color: black;
+    display: block;
+    margin-bottom: 10px;
+    width: 75%;
+    color:black;
+    font-weight: bold;
+    padding: 12px 11px;
+}
+input:focus{
+    background-color:lightblue;
+
+}
+.form{
+    margin-left: 150px;
+}
+button {
+    color:white;
+    background-color: blue;
+    border-radius: 5px;
+    border-color: black;
+    padding: 8px 8px;
+}
+button:hover{
+    background-color:darkblue ;
+    border-color: black;
+}
+p{
+    font-weight: bold;
+}
+#message{
+    color:blue;
+    font-weight: bold;
+}
+.Product{
+    background-color: aliceblue;
+    width: 70%;
+    border-radius: 10px;
+    padding:12px 11px;
+  margin-left: 50px;
+}
