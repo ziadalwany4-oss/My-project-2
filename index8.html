@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Product manager</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+h1{
+    color:blue;
+    text-align: center;
+    font-weight: bold;
+    font-size:50px;
+}
+h2{
+    margin-left: 20px;
+    color:blue;
+}
+input{
+    border-radius: 5px;
+    border-color: black;
+    display: block;
+    margin-bottom: 20px;
+    width: 90%;
+    color:black;
+    font-weight: bold;
+    padding: 12px 11px;
+}
+input:focus{
+    background-color:lightblue;
+
+}
+
+button {
+    color:white;
+    background-color: blue;
+    border-radius: 5px;
+    border-color: black;
+    padding: 8px 8px;
+    margin-left: 20px;
+}
+button:hover{
+    background-color:darkblue ;
+    border-color: black;
+}
+p{
+    font-weight: bold;
+    margin-left: 20px;
+}
+#message{
+    color:blue;
+    font-weight: bold;
+    margin-left: 20px;
+}
+.Product{
+    background-color: aliceblue;
+    width: 90%;
+    border-radius: 10px;
+    padding:12px 11px;
+    margin-left: 20px;
+}
+
+</style>
+</head>
+<body>
+    <div class="ziad">
+    <h1>Product manager</h1>
+    <div class="form">
+    <p>manage your product using Javascript and Local Storage</p>
+    <input type="text" id="input1" placeholder="Product name">
+    <input type="number" id="input2" placeholder="Product price">
+    <input type="number" id="input3" placeholder="Product quantity">
+    <button type="button" id="srcbutton">Save Product</button>
+    <p id="message"></p>
+    </div>
+    <h2>Products</h2>
+    <div id="ProductList"></div>
+    
+    </div>
+<script>
+     let input1 = document.getElementById("input1");
+     let input2 = document.getElementById("input2");
+     let input3 = document.getElementById("input3");
+     let srcbutton = document.getElementById("srcbutton");
+     let message = document.getElementById("message");
+     let ProductList = document.getElementById("ProductList");
+
+     let Product = [];
+     let editsindex = null;
+
+     let SavedseProduct =localStorage.getItem("Product");
+
+     if(SavedseProduct !==null){
+        Product = JSON.parse(SavedseProduct);
+     }
+     
+    function saveToLocalStorage(){
+        localStorage.setItem("Product", JSON.stringify(Product));
+    }
+
+      
+     function displayProduct (){
+        ProductList.innerHTML ='';
+
+        Product.forEach(function(item, index){
+        ProductList.innerHTML +=`
+        <div class="Product">
+        <h3>${item.name}</h3>
+        <p>Price: ${item.price}</p>
+        <p>quantity: ${item.quantity}</p>
+        <button onclick= "editsProduct(${index})">Edit</button>
+        <button onclick= "DeleteProduct(${index})">Delete</button>
+        </div>
+        `;
+        });
+     }
+        
+    srcbutton.addEventListener("click" , function() {
+      let Products = {
+        name: input1.value,
+        price: input2.value,
+        quantity: input3.value
+      };
+
+    if(editsindex ===null){
+       Product.push(Products);
+    message.textContent = "Product Added successfully";
+    }else {
+        Product[editsindex]= Products;
+        editsindex= null;
+        srcbutton.textContent = "Save Product";
+        message.textContent = "Product Updated Successfully";
+    }
+
+    saveToLocalStorage();
+    displayProduct();
+
+    input1.value = "";
+    input2.value = "";
+    input3.value = ""; 
+      
+});
+
+function editsProduct(index){
+   input1.value = Product[index].name
+   input2.value = Product[index].price;
+   input3.value = Product[index].quantity; 
+
+   editsindex = index;
+   srcbutton.textContent = "Update Product";
+}
+
+function DeleteProduct(index){
+    Product.splice(index,1);
+   saveToLocalStorage();
+    displayProduct();
+
+    message.textContent = "Product Delete Successfully";
+}
+displayProduct();
+</script>
+</body>
+</html>
