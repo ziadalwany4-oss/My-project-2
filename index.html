@@ -3,7 +3,6 @@
 <head>
 <title>Product manager</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-P1JZK4KC4Z"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -35,9 +34,7 @@ input{
 }
 input:focus{
     background-color:lightblue;
-
 }
-
 button {
     color:white;
     background-color: blue;
@@ -65,8 +62,8 @@ p{
     border-radius: 10px;
     padding:12px 11px;
     margin-left: 20px;
+    margin-bottom: 10px;
 }
-
 </style>
 </head>
 <body>
@@ -82,8 +79,8 @@ p{
     </div>
     <h2>Products</h2>
     <div id="ProductList"></div>
-    
     </div>
+
 <script>
      let input1 = document.getElementById("input1");
      let input2 = document.getElementById("input2");
@@ -95,9 +92,9 @@ p{
      let Product = [];
      let editsindex = null;
 
-     let SavedseProduct =localStorage.getItem("Product");
+     let SavedseProduct = localStorage.getItem("Product");
 
-     if(SavedseProduct !==null){
+     if(SavedseProduct !== null){
         Product = JSON.parse(SavedseProduct);
      }
      
@@ -105,7 +102,6 @@ p{
         localStorage.setItem("Product", JSON.stringify(Product));
     }
 
-      
      function displayProduct (){
         ProductList.innerHTML ='';
 
@@ -115,8 +111,8 @@ p{
         <h3>${item.name}</h3>
         <p>Price: ${item.price}</p>
         <p>quantity: ${item.quantity}</p>
-        <button onclick= "editsProduct(${index})">Edit</button>
-        <button onclick= "DeleteProduct(${index})">Delete</button>
+        <button onclick="editsProduct(${index})">Edit</button>
+        <button onclick="DeleteProduct(${index})">Delete</button>
         </div>
         `;
         });
@@ -129,42 +125,54 @@ p{
         quantity: input3.value
       };
 
-    if(editsindex ===null){
-       Product.push(Products);
-    message.textContent = "Product Added successfully";
-    }else {
-        Product[editsindex]= Products;
-        editsindex= null;
-        srcbutton.textContent = "Save Product";
-        message.textContent = "Product Updated Successfully";
+      if (input1.value.trim() === "") {
+          alert("Please enter a product name");
+          return;
+      }
+
+      // ⬇️ إرسال البيانات (الاسم، السعر، العدد) لجوجل تحليلات ⬇️
+      gtag('event', 'add_new_product', {
+          'product_name': input1.value,
+          'product_price': input2.value,
+          'product_quantity': input3.value
+      });
+      // ⬆️ ----------------------------------------------- ⬆️
+
+      if(editsindex === null){
+          Product.push(Products);
+          message.textContent = "Product Added successfully";
+      } else {
+          Product[editsindex] = Products;
+          editsindex = null;
+          srcbutton.textContent = "Save Product";
+          message.textContent = "Product Updated Successfully";
+      }
+
+      saveToLocalStorage();
+      displayProduct();
+
+      input1.value = "";
+      input2.value = "";
+      input3.value = ""; 
+    });
+
+    function editsProduct(index){
+       input1.value = Product[index].name;
+       input2.value = Product[index].price;
+       input3.value = Product[index].quantity; 
+
+       editsindex = index;
+       srcbutton.textContent = "Update Product";
     }
 
-    saveToLocalStorage();
+    function DeleteProduct(index){
+        Product.splice(index,1);
+        saveToLocalStorage();
+        displayProduct();
+        message.textContent = "Product Delete Successfully";
+    }
+
     displayProduct();
-
-    input1.value = "";
-    input2.value = "";
-    input3.value = ""; 
-      
-});
-
-function editsProduct(index){
-   input1.value = Product[index].name
-   input2.value = Product[index].price;
-   input3.value = Product[index].quantity; 
-
-   editsindex = index;
-   srcbutton.textContent = "Update Product";
-}
-
-function DeleteProduct(index){
-    Product.splice(index,1);
-   saveToLocalStorage();
-    displayProduct();
-
-    message.textContent = "Product Delete Successfully";
-}
-displayProduct();
 </script>
 </body>
 </html>
